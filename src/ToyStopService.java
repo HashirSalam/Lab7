@@ -4,12 +4,13 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Random;
-
+import java.io.*;
 /**
  *
  * @author Fahad Satti
  */
-public class ToyStopService {
+public class ToyStopService implements java.io.Serializable {
+
     ArrayList<Employee> employees = new ArrayList<>();
     ArrayList<Store> stores = new ArrayList<>();
         
@@ -22,9 +23,17 @@ public class ToyStopService {
             myEmployee.setEmail(myEmployee.getName()+"@toystop.org");
             
             employees.add(myEmployee);
+
+            }
         }
-    }
-    
+
+
+
+
+
+
+
+
     public void initStores(){
         //Create a List of Stores in a region
         for(int i=0; i<100; i++){
@@ -60,6 +69,23 @@ public class ToyStopService {
             
         }
     }
+
+    public void addToy(){
+        //Add single toy random store
+            Toy newToy = new Toy();
+            newToy.setUID(Util.getSaltNum(-1));
+            newToy.setMinAge(Util.getSaltNum(1));
+            newToy.setMaxAge(Util.getSaltNum(18));
+            newToy.setPrice(Util.getSaltNum(1000));
+            newToy.setName(Util.getSaltAlphaString());
+            newToy.setAddedOn(LocalDateTime.now());
+
+            Random randStore = new Random();
+            int index = randStore.nextInt(stores.size());
+            Store selectedStore = (Store)stores.get(index);
+            selectedStore.addToy(newToy);
+    }
+
     //Only creates a new employee and returns the UID
     public int addEmployee(){
             Employee myEmployee = new Employee();
